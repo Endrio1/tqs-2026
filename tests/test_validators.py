@@ -11,7 +11,7 @@ Testando o PR
 
 """
 
-from src.validators import validar_cnpj, validar_cpf, validar_email
+from src.validators import validar_cnpj, validar_cpf, validar_email, validar_telefone
 
 
 def test_aceita_cpf_valido():
@@ -48,5 +48,25 @@ def test_validar_cnpj_tamanho_incorreto():
 def test_validar_cnpj_todos_digitos_iguais():
     assert validar_cnpj("11.111.111/1111-11") is False
 
-def test_validar_cnpj_none():
+def test_validar_cnpj_vazio():
     assert validar_cnpj(None) is False
+
+
+def test_aceita_telefone_valido_com_mascara():
+    assert validar_telefone("(11) 91234-5678") is True
+
+
+def test_aceita_telefone_valido_sem_mascara():
+    assert validar_telefone("11912345678") is True
+
+
+def test_rejeita_telefone_sem_nono_digito():
+    assert validar_telefone("(11) 81234-5678") is False
+
+
+def test_rejeita_telefone_com_ddd_invalido():
+    assert validar_telefone("(10) 91234-5678") is False
+
+
+def test_rejeita_telefone_com_tamanho_errado():
+    assert validar_telefone("1191234567") is False
