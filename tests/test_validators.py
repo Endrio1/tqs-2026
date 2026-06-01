@@ -29,24 +29,31 @@ def test_aceita_email_valido():
 def test_rejeita_email_sem_arroba():
     assert validar_email("semarroba.com") is False
 
+
 # tests/test_validators.py
 def test_aceita_cnpj_valido():
     assert validar_cnpj("11.222.333/0001-81") is True
 
+
 def test_validar_cnpj_valido():
     assert validar_cnpj("11.222.333/0001-81") is True
+
 
 def test_validar_cnpj_sem_mascara():
     assert validar_cnpj("11222333000181") is True
 
+
 def test_validar_cnpj_invalido():
     assert validar_cnpj("11.222.333/0001-82") is False
+
 
 def test_validar_cnpj_tamanho_incorreto():
     assert validar_cnpj("123") is False
 
+
 def test_validar_cnpj_todos_digitos_iguais():
     assert validar_cnpj("11.111.111/1111-11") is False
+
 
 def test_validar_cnpj_vazio():
     assert validar_cnpj(None) is False
