@@ -15,6 +15,7 @@ def _calcular_digito_verificador(digitos: str, peso_inicial: int) -> int:
     resto = (soma * 10) % 11
     return 0 if resto == 10 else resto
 
+
 def _calcular_digito_cnpj(digitos: str, pesos: list[int]) -> int:
     soma = sum(int(d) * peso for d, peso in zip(digitos, pesos, strict=True))
     resto = soma % 11
@@ -44,6 +45,7 @@ def validar_email(email: str | None) -> bool:
         return False
     return _REGEX_EMAIL.match(email) is not None
 
+
 def _calcular_dv_cnpj(digitos: str, pesos: list[int]) -> int:
     soma = sum(int(d) * p for d, p in zip(digitos, pesos, strict=True))
     resto = soma % 11
@@ -63,6 +65,7 @@ def validar_cnpj(cnpj: str | None) -> bool:
     primeiro = _calcular_dv_cnpj(apenas_digitos[:12], pesos_primeiro)
     segundo = _calcular_dv_cnpj(apenas_digitos[:13], pesos_segundo)
     return apenas_digitos[12] == str(primeiro) and apenas_digitos[13] == str(segundo)
+
 
 def validar_telefone(telefone: str | None) -> bool:
     if not isinstance(telefone, str):
