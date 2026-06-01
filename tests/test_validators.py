@@ -6,6 +6,9 @@ sem se afogar em código de teste.
 
 Os capítulos 5 (TDD) e 10 (atividade prática) sugerem novos testes
 para cobrir casos de borda — adicione-os à medida que evoluir o projeto.
+
+Testando o PR
+
 """
 
 from src.validators import validar_cnpj, validar_cpf, validar_email
