@@ -15,6 +15,11 @@ def _calcular_digito_verificador(digitos: str, peso_inicial: int) -> int:
     resto = (soma * 10) % 11
     return 0 if resto == 10 else resto
 
+def _calcular_digito_cnpj(digitos: str, pesos: list[int]) -> int:
+    soma = sum(int(d) * peso for d, peso in zip(digitos, pesos, strict=True))
+    resto = soma % 11
+    return 0 if resto < 2 else 11 - resto
+
 
 def validar_cpf(cpf: str | None) -> bool:
     if not isinstance(cpf, str):
@@ -23,7 +28,7 @@ def validar_cpf(cpf: str | None) -> bool:
     apenas_digitos = re.sub(r"[.\-\s]", "", cpf)
 
     if len(apenas_digitos) != 11 or not apenas_digitos.isdigit():
-        return False
+        return False 
 
     if len(set(apenas_digitos)) == 1:
         return False
@@ -38,3 +43,34 @@ def validar_email(email: str | None) -> bool:
     if not isinstance(email, str) or not email:
         return False
     return _REGEX_EMAIL.match(email) is not None
+
+def validar_cnpj(cnpj: str | None) -> bool:
+    if not isinstance(cnpj, str):
+        return False
+
+    apenas_digitos = re.sub(r"[.\-\/\s]", "", cnpj)
+
+    if len(apenas_digitos) != 14 or not apenas_digitos.isdigit():
+        return False
+
+    if len(set(apenas_digitos)) == 1:
+        return False
+
+    pesos_primeiro = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    pesos_segundo = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+
+    primeiro = _calcular_digito_cnpj(
+        apenas_digitos[:12],
+        pesos_primeiro,
+    )
+
+    segundo = _calcular_digito_cnpj(
+        apenas_digitos[:12] + str(primeiro),
+        pesos_segundo,
+    )
+
+    return (
+        apenas_digitos[12] == str(primeiro)
+        and apenas_digitos[13] == str(segundo)
+    )
+
